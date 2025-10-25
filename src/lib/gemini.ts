@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(API_KEY);
 
 export const generateDailyQuestions = async (): Promise<string[]> => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = "Generate 3 short, unique reflective questions for a student's daily journal focusing on mindfulness, learning, and productivity. Return only the questions, one per line.";
     
     const result = await model.generateContent(prompt);
@@ -25,7 +25,7 @@ export const generateDailyQuestions = async (): Promise<string[]> => {
 
 export const generateJournalSummary = async (journalText: string): Promise<string> => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = `Summarize and reflect on this journal entry in 2-3 sentences. Focus on key emotions, insights, and growth: "${journalText}"`;
     
     const result = await model.generateContent(prompt);
@@ -39,7 +39,7 @@ export const generateJournalSummary = async (journalText: string): Promise<strin
 
 export const generateWeeklyReport = async (journalData: any[], userData: any): Promise<string> => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = `Analyze this student's weekly journal and progress data to create a motivational summary report:
     
 Journals: ${journalData.length} entries this week
@@ -62,7 +62,7 @@ Provide a brief, encouraging weekly summary focusing on growth, patterns, and ac
 
 export const generateDailyChallenge = async (): Promise<string> => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const prompt = "Generate one simple, actionable daily productivity challenge for students to improve focus and discipline. Keep it brief (one sentence) and inspiring.";
     
     const result = await model.generateContent(prompt);
@@ -76,7 +76,7 @@ export const generateDailyChallenge = async (): Promise<string> => {
 
 export const chatWithAI = async (message: string, chatHistory: Array<{role: string; content: string}>): Promise<string> => {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const context = "You are a motivational mentor helping students improve their journaling and productivity habits. Be encouraging, insightful, and concise.";
     
     const fullPrompt = `${context}\n\nConversation history:\n${chatHistory.map(msg => `${msg.role}: ${msg.content}`).join('\n')}\n\nUser: ${message}\n\nAssistant:`;

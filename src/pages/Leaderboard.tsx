@@ -23,24 +23,33 @@ const Leaderboard: React.FC = () => {
 
   const loadLeaderboard = async () => {
     try {
-      const usersSnap = await getDocs(collection(db, 'users'));
-      const leaderboardData: LeaderboardEntry[] = [];
+      // Try to load from leaderboard collection first
+      const leaderboardSnap = await getDocs(query(collection(db, 'leaderboard'), orderBy('xp', 'desc')));
+      
+      if (!leaderboardSnap.empty) {
+        const leaderboardData = leaderboardSnap.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        } as LeaderboardEntry));
+        setEntries(leaderboardData);
+      } else {
+        // Fallback: Build from users collection
+        const usersSnap = await getDocs(collection(db, 'users'));
+        const leaderboardData: LeaderboardEntry[] = [];
 
-      for (const userDoc of usersSnap.docs) {
-        const userData = userDoc.data();
-        const statsSnap = await getDocs(collection(db, 'users', userDoc.id, 'stats'));
-        const statsData = statsSnap.docs[0]?.data();
+        for (const userDoc of usersSnap.docs) {
+          const userData = userDoc.data();
+          leaderboardData.push({
+            id: userDoc.id,
+            name: userData.name || userData.email,
+            xp: userData.xp || 0,
+            streak: userData.streak || 0,
+          });
+        }
 
-        leaderboardData.push({
-          id: userDoc.id,
-          name: userData.name || userData.email,
-          xp: statsData?.xp || 0,
-          streak: statsData?.streak || 0,
-        });
+        leaderboardData.sort((a, b) => b.xp - a.xp);
+        setEntries(leaderboardData);
       }
-
-      leaderboardData.sort((a, b) => b.xp - a.xp);
-      setEntries(leaderboardData);
     } catch (error) {
       console.error('Error loading leaderboard:', error);
     } finally {

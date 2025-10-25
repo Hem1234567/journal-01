@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { doc, getDoc, updateDoc, collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, query, where, getDocs, orderBy, limit, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { generateDailyChallenge } from '@/lib/gemini';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -30,10 +30,17 @@ const Dashboard: React.FC = () => {
     if (!user) return;
 
     try {
-      // Load stats
-      const statsDoc = await getDoc(doc(db, 'users', user.uid, 'stats', 'current'));
+      // Load stats - create if doesn't exist
+      const statsRef = doc(db, 'users', user.uid, 'stats', 'current');
+      const statsDoc = await getDoc(statsRef);
+      
       if (statsDoc.exists()) {
         setStats(statsDoc.data() as any);
+      } else {
+        // Initialize stats if missing
+        const initialStats = { xp: 0, streak: 0, totalJournals: 0, lastJournalDate: null };
+        await setDoc(statsRef, initialStats);
+        setStats(initialStats);
       }
 
       // Load or generate today's challenge
