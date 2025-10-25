@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/use-toast';
-import { motion } from 'framer-motion';
-import { Sparkles, Mail, Lock, User } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
+import { Sparkles, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 
 const Auth: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user, login, signup, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
@@ -21,7 +28,7 @@ const Auth: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   }, [user, navigate]);
 
@@ -35,7 +42,7 @@ const Auth: React.FC = () => {
         title: "Welcome back!",
         description: "You've successfully logged in.",
       });
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -66,7 +73,7 @@ const Auth: React.FC = () => {
         title: "Account created!",
         description: "Welcome to JournalPro!",
       });
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -86,7 +93,7 @@ const Auth: React.FC = () => {
         title: "Welcome!",
         description: "You've successfully logged in with Google.",
       });
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -98,33 +105,46 @@ const Auth: React.FC = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-primary p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-primary px-4 sm:px-6 lg:px-8 py-8">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
+        className="w-full max-w-md"
       >
-        <Card className="w-full max-w-md shadow-elegant">
-          <CardHeader className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-primary">
-              <Sparkles className="h-8 w-8 text-primary-foreground" />
-            </div>
-            <CardTitle className="text-3xl font-bold">JournalPro</CardTitle>
-            <CardDescription>Your AI-powered productivity companion</CardDescription>
+        <Card className="w-full shadow-elegant">
+          <CardHeader className="text-center space-y-4 px-6 pt-6">
+            <CardTitle className="text-3xl font-bold">Journal</CardTitle>
+            <CardDescription className="text-base">
+              Your AI-powered productivity companion
+            </CardDescription>
           </CardHeader>
 
-          <CardContent>
+          <CardContent className="px-6 pb-6">
             <Tabs defaultValue="login" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="login" className="px-4 py-2">
+                  Login
+                </TabsTrigger>
+                <TabsTrigger value="signup" className="px-4 py-2">
+                  Sign Up
+                </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="login">
+              <TabsContent value="login" className="space-y-6">
                 <form onSubmit={handleLogin} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="login-email">Email</Label>
+                  <div className="space-y-3">
+                    <Label
+                      htmlFor="login-email"
+                      className="text-sm font-medium"
+                    >
+                      Email
+                    </Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                       <Input
@@ -133,30 +153,53 @@ const Auth: React.FC = () => {
                         placeholder="you@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="pl-10"
+                        className="pl-10 pr-4 py-2"
                         required
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="login-password">Password</Label>
+                  <div className="space-y-3">
+                    <Label
+                      htmlFor="login-password"
+                      className="text-sm font-medium"
+                    >
+                      Password
+                    </Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                       <Input
                         id="login-password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="pl-10"
+                        className="pl-10 pr-10 py-2"
                         required
                       />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-sm"
+                        onClick={togglePasswordVisibility}
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
                     </div>
                   </div>
 
-                  <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? 'Logging in...' : 'Login'}
+                  <Button
+                    type="submit"
+                    className="w-full py-2 mt-2"
+                    disabled={loading}
+                  >
+                    {loading ? "Logging in..." : "Login"}
                   </Button>
                 </form>
 
@@ -165,17 +208,19 @@ const Auth: React.FC = () => {
                     <span className="w-full border-t border-border" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                    <span className="bg-card px-3 text-muted-foreground">
+                      Or continue with
+                    </span>
                   </div>
                 </div>
 
                 <Button
                   variant="outline"
-                  className="w-full"
+                  className="w-full py-2"
                   onClick={handleGoogleLogin}
                   disabled={loading}
                 >
-                  <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
+                  <svg className="mr-3 h-5 w-5" viewBox="0 0 24 24">
                     <path
                       fill="currentColor"
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -197,10 +242,15 @@ const Auth: React.FC = () => {
                 </Button>
               </TabsContent>
 
-              <TabsContent value="signup">
+              <TabsContent value="signup" className="space-y-6">
                 <form onSubmit={handleSignup} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-name">Full Name</Label>
+                  <div className="space-y-3">
+                    <Label
+                      htmlFor="signup-name"
+                      className="text-sm font-medium"
+                    >
+                      Full Name
+                    </Label>
                     <div className="relative">
                       <User className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                       <Input
@@ -209,14 +259,19 @@ const Auth: React.FC = () => {
                         placeholder="John Doe"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="pl-10"
+                        className="pl-10 pr-4 py-2"
                         required
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
+                  <div className="space-y-3">
+                    <Label
+                      htmlFor="signup-email"
+                      className="text-sm font-medium"
+                    >
+                      Email
+                    </Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                       <Input
@@ -225,31 +280,54 @@ const Auth: React.FC = () => {
                         placeholder="you@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="pl-10"
+                        className="pl-10 pr-4 py-2"
                         required
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
+                  <div className="space-y-3">
+                    <Label
+                      htmlFor="signup-password"
+                      className="text-sm font-medium"
+                    >
+                      Password
+                    </Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                       <Input
                         id="signup-password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="pl-10"
+                        className="pl-10 pr-10 py-2"
                         required
                         minLength={6}
                       />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-sm"
+                        onClick={togglePasswordVisibility}
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
                     </div>
                   </div>
 
-                  <Button type="submit" className="w-full" disabled={loading}>
-                    {loading ? 'Creating account...' : 'Sign Up'}
+                  <Button
+                    type="submit"
+                    className="w-full py-2 mt-2"
+                    disabled={loading}
+                  >
+                    {loading ? "Creating account..." : "Sign Up"}
                   </Button>
                 </form>
 
@@ -258,17 +336,19 @@ const Auth: React.FC = () => {
                     <span className="w-full border-t border-border" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                    <span className="bg-card px-3 text-muted-foreground">
+                      Or continue with
+                    </span>
                   </div>
                 </div>
 
                 <Button
                   variant="outline"
-                  className="w-full"
+                  className="w-full py-2"
                   onClick={handleGoogleLogin}
                   disabled={loading}
                 >
-                  <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
+                  <svg className="mr-3 h-5 w-5" viewBox="0 0 24 24">
                     <path
                       fill="currentColor"
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

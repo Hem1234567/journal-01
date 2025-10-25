@@ -171,7 +171,9 @@ const Journal: React.FC = () => {
       <div className="mx-auto max-w-4xl space-y-6">
         <div>
           <h1 className="text-4xl font-bold">Daily Journal</h1>
-          <p className="text-muted-foreground">Answer today's reflective questions</p>
+          <p className="text-muted-foreground">
+            Answer today's reflective questions
+          </p>
         </div>
 
         {questions.map((question, index) => (
@@ -202,7 +204,11 @@ const Journal: React.FC = () => {
                   className="min-h-[120px]"
                 />
                 <Button
-                  variant={isRecording && currentQuestionIndex === index ? "destructive" : "outline"}
+                  variant={
+                    isRecording && currentQuestionIndex === index
+                      ? "destructive"
+                      : "outline"
+                  }
                   size="sm"
                   onClick={() => {
                     setCurrentQuestionIndex(index);
@@ -227,7 +233,7 @@ const Journal: React.FC = () => {
           </motion.div>
         ))}
 
-        <Card className="shadow-elegant">
+        <Card className="shadow-elegant pb-10">
           <CardContent className="space-y-4 pt-6">
             <div className="flex items-center justify-between">
               <Label htmlFor="share">Share to Community</Label>
@@ -245,7 +251,7 @@ const Journal: React.FC = () => {
               size="lg"
             >
               <Send className="h-5 w-5" />
-              {loading ? 'Saving...' : 'Submit Journal'}
+              {loading ? "Saving..." : "Submit Journal"}
             </Button>
           </CardContent>
         </Card>

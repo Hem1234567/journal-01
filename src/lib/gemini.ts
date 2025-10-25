@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const API_KEY = "AIzaSyBxGRWSoSUUrN5uvT2s9SyDGv4GVKW-yi0";
+const API_KEY = "AIzaSyATnqEPO5DMyOqd_22hvSwOrDYfh3MON7I";
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 export const generateDailyQuestions = async (): Promise<string[]> => {

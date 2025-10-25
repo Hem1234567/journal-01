@@ -118,68 +118,112 @@ const Dashboard: React.FC = () => {
         {/* Header */}
         <div>
           <h1 className="text-4xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">Track your growth and productivity</p>
+          <p className="text-muted-foreground">
+            Track your growth and productivity
+          </p>
         </div>
 
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
             <Card className="shadow-card">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">Total XP</CardTitle>
                 <Zap className="h-5 w-5 text-accent" />
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-primary">{stats.xp}</div>
-                <p className="text-xs text-muted-foreground mt-1">Level {level}</p>
+                <div className="text-3xl font-bold text-primary">
+                  {stats.xp}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Level {level}
+                </p>
                 <Progress value={xpProgress} className="mt-2" />
               </CardContent>
             </Card>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
             <Card className="shadow-card">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Current Streak</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Current Streak
+                </CardTitle>
                 <Flame className="h-5 w-5 text-destructive" />
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-destructive">{stats.streak}</div>
-                <p className="text-xs text-muted-foreground mt-1">days in a row</p>
+                <div className="text-3xl font-bold text-destructive">
+                  {stats.streak}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  days in a row
+                </p>
               </CardContent>
             </Card>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
             <Card className="shadow-card">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Total Journals</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Journals
+                </CardTitle>
                 <TrendingUp className="h-5 w-5 text-success" />
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-success">{stats.totalJournals}</div>
-                <p className="text-xs text-muted-foreground mt-1">entries written</p>
+                <div className="text-3xl font-bold text-success">
+                  {stats.totalJournals}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  entries written
+                </p>
               </CardContent>
             </Card>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
             <Card className="shadow-card">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">Achievements</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Achievements
+                </CardTitle>
                 <Award className="h-5 w-5 text-secondary" />
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-secondary">{Math.floor(stats.xp / 100)}</div>
-                <p className="text-xs text-muted-foreground mt-1">badges earned</p>
+                <div className="text-3xl font-bold text-secondary">
+                  {Math.floor(stats.xp / 100)}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  badges earned
+                </p>
               </CardContent>
             </Card>
           </motion.div>
         </div>
 
         {/* Daily Challenge */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-          <Card className="shadow-elegant border-accent/20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <Card className="shadow-elegant border-accent/20 pb-10">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Target className="h-6 w-6 text-accent" />
@@ -192,9 +236,9 @@ const Dashboard: React.FC = () => {
               <Button
                 onClick={completeChallenge}
                 disabled={challengeCompleted}
-                className="w-full"
+                className="w-full "
               >
-                {challengeCompleted ? '✓ Completed' : 'Mark as Complete'}
+                {challengeCompleted ? "✓ Completed" : "Mark as Complete"}
               </Button>
             </CardContent>
           </Card>
@@ -202,7 +246,11 @@ const Dashboard: React.FC = () => {
 
         {/* Weekly Report */}
         {weeklyReport && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
             <Card className="shadow-card">
               <CardHeader>
                 <div className="flex items-center gap-2">
