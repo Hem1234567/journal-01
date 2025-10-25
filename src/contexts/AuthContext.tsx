@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   const checkAdminStatus = async (userEmail: string) => {
-    const adminEmails = ['hem07042006@gmail.com'];
+    const adminEmails = ['admin@gmail.com'];
     return adminEmails.includes(userEmail);
   };
 
